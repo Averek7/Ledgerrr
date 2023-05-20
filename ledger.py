@@ -1,7 +1,7 @@
 import datetime 
 import hashlib
 import json
-from flask import Flask, jsonify, request
+# from flask import Flask, jsonify, request
 
 class BlockChain:
 
