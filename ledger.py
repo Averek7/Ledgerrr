@@ -39,3 +39,28 @@ class BlockChain:
     def hash(self, block):
         encodeBlock = json.dumps(block).encode()     # converts block(dict) to string
         return hashlib.sha256(encodeBlock).hexdigest()
+    
+
+    def isChainValid(self, chain):
+        previousBlock = chain[0]
+        blockIdx = 1
+
+        while blockIdx < len(chain):
+            block = chain[blockIdx]
+            if block['previous_hash'] != self.hash(previousBlock):
+                return False
+            
+            previousProof = previousBlock['proof']
+            proof = block['proof']
+            hashVal = hashlib.sha256(str(proof**2-previousProof**2).encode()).hexdigest()
+
+            if hashVal[:4] != '0000':
+                return True
+            
+            previousBlock = block
+            blockIdx += 1
+
+        return True
+
+    def getPreviousBlock(self):
+        return self.chain[-1]
